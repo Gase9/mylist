@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My Lists</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Srisakdi|Titillium+Web" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    
+</head>
+<body>
+
+<div class="wrapper">
+  <nav class="navBar">
+    <ul class="left">
+      <li><a href="">Menu 1</a></li>
+      <li><a href="">Menu 2</a></li>
+    </ul>
+    <h1>My Lists</h1>
+    <ul class="right">
+      <li><a href="">Menu 3</a></li>
+      <li><a href="">Menu 4</a></li>
+    </ul>
+  </nav>
+  <div class="myList">
+    <form class="add-items">
+      <input type="text" name="addItems" id="addItems">
+      <input type="submit" value="add item">
+    </form>
+    <div class="list">
+      <div class="listHeader">
+          <i class="icon-check-minus"></i>
+          <h2>My List</h2>
+      </div>
+      <ul>
+        <li class="item">Item
+          <i class="icon-cogs">
+            <div class="options">
+                <button class="delete">delete</button>
+                <button class="moveUp">move up</button>
+                <button class="moveDown">move down</button>
+            </div>  
+          </i>     
+        </li>
+      </ul>
+    </div>
+    <div class="list doneList">
+      <div class="listHeader">
+        <i class="icon-check"></i>
+        <h2>Done</h2>
+      </div>
+      <ul>
+          <li class="item">Item
+              <i class="icon-cogs">
+                <div class="options">
+                    <button class="delete">delete</button>
+                </div>  
+              </i>     
+            </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    created by GalSegal
+    <ul>
+      <li><a href=""><i class="icon-github"></i></a></li>
+      <li><a href=""><i class="icon-facebook-sign"></i></a></li>
+      <li><a href=""><i class="icon-linkedin-sign"></i></a></li>
+      <li><a href=""><i class="icon-twitter"></i></a></li>
+    </ul>
+  </footer>
+
+
+
+</div>
+
+  <script src="main.js"></script>  
+</body>
+</html>
