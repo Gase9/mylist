@@ -10,7 +10,7 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     
 </head>
-<body>
+<body onload="fetchList()">
 
 <div class="wrapper">
   <nav class="navBar">
@@ -18,7 +18,7 @@
       <li><a href="">Menu 1</a></li>
       <li><a href="">Menu 2</a></li>
     </ul>
-    <h1>My Lists</h1>
+    <h1>My Lists</h1> 
     <ul class="right">
       <li><a href="">Menu 3</a></li>
       <li><a href="">Menu 4</a></li>
@@ -34,62 +34,58 @@
           <i class="icon-list-ul"></i>
           <h2>My List</h2>
       </div>
-      <ul>
-        <!-- <li class="item">Item
-          <i class="icon-cogs">
-            <div class="options">
-                <button class="delete">delete</button>
-                <button class="moveUp">move up</button>
-                <button class="moveDown">move down</button>
-            </div>  
-          </i>     
-        </li> -->
-        <li class="upNdown">
-            <i class="icon-long-arrow-down"></i>
-            <i class="icon-long-arrow-up"></i>
-        </li>
-        <li class="item">
-          <div class="text">Item</div>
-          <i class="icon-circle-arrow-left arrow"></i>
-          <div class="options">
-            <button class="delete"><i class="icon-trash"></i></button>
-            <button class="star"><i class="icon-star"></i></button>
-            <button class="edit"><i class="icon-pencil"></i></button>
-          </div>     
-        </li>
-      </ul>
-    </div>
-    <div class="list doneList">
-      <div class="listHeader">
-        <i class="icon-check"></i>
-        <h2>Done</h2>
-      </div>
-      <ul>
+      <ul class="ul">
+        <!-- <li class="item">
           <div class="upNdown">
-              <i class="icon-long-arrow-down"></i>
-              <i class="icon-long-arrow-up"></i>
+            <i class="icon-long-arrow-up"></i>
+            <i class="icon-long-arrow-down"></i>
           </div>
-          <li class="item">
-            <div class="text">Item</div>
+          <div class="text" lang="en">
+            <h3>Item</h3>
+            <i class="icon-bookmark bookmark">
+              <div class="bookmarks">
+                <button><i class="icon-bookmark red"></i></button>
+                <button><i class="icon-bookmark orange"></i></button>
+                <button><i class="icon-bookmark yellow"></i></button>
+              </div>
+            </i>
+            <h6>14/03/2019 15:43</h6>
+          </div>
+          <div class="itemSettings">
             <i class="icon-circle-arrow-left arrow"></i>
-            <div class="options">
+          <div class="options">
               <button class="delete"><i class="icon-trash"></i></button>
-              <button class="star"><i class="icon-star"></i></button>
               <button class="edit"><i class="icon-pencil"></i></button>
-            </div>     
-          </li>
+              <button class="star"><i class="icon-star"></i></button>
+            </div>    
+          </div>
+          <div class="editSubmit">
+              <button class="save">Save</button>
+              <button class="cancel">Cancel</button>
+            </div>    
+        </li> -->
       </ul>
+
     </div>
   </div>
 
   <footer>
     created by GalSegal
-    <ul>
-      <li><a href=""><i class="icon-github"></i></a></li>
-      <li><a href=""><i class="icon-facebook-sign"></i></a></li>
-      <li><a href=""><i class="icon-linkedin-sign"></i></a></li>
-      <li><a href=""><i class="icon-twitter"></i></a></li>
-    </ul>
+    <div class="foot">
+      <div class="thanks">
+        Icons by - <a href="https://fontawesome.com">fontawesome.com</a><br>
+        Checkboxes by - <a href="https://codepen.io/lewis_adame/pen/BYYNgP">Luis Adame</a>
+      </div>
+      <div class="icons">
+        <ul>
+          <li><a href=""><i class="icon-github"></i></a></li>
+          <li><a href=""><i class="icon-facebook-sign"></i></a></li>
+          <li><a href=""><i class="icon-linkedin-sign"></i></a></li>
+          <li><a href=""><i class="icon-twitter"></i></a></li>
+        </ul>
+      </div>
+    </div>
+
   </footer>
 
 
@@ -99,3 +95,12 @@
   <script src="main.js"></script>  
 </body>
 </html>
+
+          <!-- <div class="checkbox">
+              <input type="checkbox" id="check"/>
+              <label for="check" style="--d: 20px;">
+                <svg viewBox="0,0,50,50">
+                  <path d="M5 30 L 20 45 L 45 5"></path>
+                </svg>
+              </label>
+          </div> -->
