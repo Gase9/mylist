@@ -1,168 +1,98 @@
 // Select my form and input
-const form = document.querySelector('form');
-const textValue = document.querySelector('input[type="text"]');
+const itemForm = document.querySelector('.myList form');
+const textValue = itemForm.querySelector('input[type="text"]');
 
 // Select the items list
-const itemsList = document.querySelector('.list ul');
+const itemsList = document.querySelector('.list .ul');
+const bookedList = document.querySelector('.list .booked');
 
 // ADD NEW ITEMS
-form.addEventListener('submit', addItems);
+itemForm.addEventListener('submit', addItems);
 
 function addItems(e) {
     e.preventDefault();
-    let fullDate = new Date();
-    let d = fullDate.getDate();
-    let mon = fullDate.getMonth() + 1;
-    let y = fullDate.getFullYear();
-    let h = fullDate.getHours();
-    const min = getMin();
-    function getMin() {
-        if (fullDate.getMinutes() < 10) {
-            return '0' + fullDate.getMinutes();
-        }
-        return fullDate.getMinutes();
-     };
 
-    let fullTime = `${d}/${mon}/${y} ${h}:${min}`;
-
-    var uniqueId = function() {
-        return 'id-' + Math.random().toString(36).substr(2, 16);
-    };
-      
-    let myItem = {
-        id: uniqueId(),
-        text: textValue.value,
-        date: fullTime,
-        edited: false,
-        bookmarked: false
-    }
-
-    // Creating a new list item
-    itemsList.innerHTML += 
-    `
-    <li class="item" id="${myItem.id}">
-    <div class="upNdown">
-      <i class="icon-long-arrow-up"></i>
-      <i class="icon-long-arrow-down"></i>
-    </div>
-    <!-- <div class="checkbox">
-        <input type="checkbox" id="check"/>
-        <label for="check" style="--d: 20px;">
-          <svg viewBox="0,0,50,50">
-            <path d="M5 30 L 20 45 L 45 5"></path>
-          </svg>
-        </label>
-    </div> -->
-    <div class="text" lang="en">
-      <h3>${myItem.text}</h3>
-      <i class="icon-bookmark bookmark">
-        <div class="bookmarks">
-          <button><i class="icon-bookmark red"></i></button>
-          <button><i class="icon-bookmark orange"></i></button>
-          <button><i class="icon-bookmark yellow"></i></button>
-        </div>
-      </i>
-      <h6>${myItem.date}</h6>
-    </div>
-    <div class="itemSettings">
-      <i class="icon-circle-arrow-left arrow"></i>
-    <div class="options">
-        <button class="delete"><i class="icon-trash"></i></button>
-        <button class="edit"><i class="icon-pencil"></i></button>
-        <button class="star"><i class="icon-star"></i></button>
-      </div>    
-    </div>
-    <div class="editSubmit">
-        <button class="save">Save</button>
-        <button class="cancel">Cancel</button>
-      </div>    
-  </li>
-    `
-
-     if(localStorage.getItem('mylist') === null) {
-         let mylist = [];
-         mylist.push(myItem);
-         localStorage.setItem('mylist', JSON.stringify(mylist));
-     } else {
-        let mylist = JSON.parse(localStorage.getItem('mylist'));
-        mylist.push(myItem);
-        localStorage.setItem('mylist', JSON.stringify(mylist));
-     }
-    form.reset();
-}
-
-function fetchList() {
-    if(localStorage.getItem('mylist') === null) {
-    
-    } else {
-        const mylist = JSON.parse(localStorage.getItem('mylist'));
-        for(let i=0;i<mylist.length;i++) {
-            let id = mylist[i].id;
-            let text = mylist[i].text;
-            let date = mylist[i].date;
-            const edited = function() {
-                if(mylist[i].edited === true) {
-                    return `<i>Last Updated</i> ${date}`
-                } else {
-                    return `${date}`
+    for(let i=0;i<localStorage.length;i++){
+        const localKey = localStorage.key(i).toLowerCase();
+        const listItem = header2.value.toLowerCase();
+        if(localKey === listItem) {
+            let fullDate = new Date();
+            let d = fullDate.getDate();
+            let mon = fullDate.getMonth() + 1;
+            let y = fullDate.getFullYear();
+            let h = fullDate.getHours();
+            const min = getMin();
+            function getMin() {
+                if (fullDate.getMinutes() < 10) {
+                    return '0' + fullDate.getMinutes();
                 }
+                return fullDate.getMinutes();
+            };
+
+            let fullTime = `${d}/${mon}/${y} ${h}:${min}`;
+
+            let uniqueId = function() {
+                return 'id-' + Math.random().toString(36).substr(2, 16);
+            };
+            
+            let myItem = {
+                id: uniqueId(),
+                text: textValue.value,
+                date: fullTime,
+                edited: false,
+                bookmarked: false
             }
-            itemsList.innerHTML +=
+
+            // Creating a new list item
+            itemsList.innerHTML += 
             `
-        <li class="item" id="${id}">
-        <div class="upNdown">
-        <i class="icon-long-arrow-up"></i>
-        <i class="icon-long-arrow-down"></i>
-        </div>
-        <!-- <div class="checkbox">
-            <input type="checkbox" id="check"/>
-            <label for="check" style="--d: 20px;">
-            <svg viewBox="0,0,50,50">
-                <path d="M5 30 L 20 45 L 45 5"></path>
-            </svg>
-            </label>
-        </div> -->
-        <div class="text" lang="en">
-        <h3>${text}</h3>
-        <i class="icon-bookmark bookmark">
-            <div class="bookmarks">
-            <button><i class="icon-bookmark red"></i></button>
-            <button><i class="icon-bookmark orange"></i></button>
-            <button><i class="icon-bookmark yellow"></i></button>
-            </div>
-        </i>
-        <h6>${edited()}</h6>
-        </div>
-        <div class="itemSettings">
-        <i class="icon-circle-arrow-left arrow"></i>
-        <div class="options">
-            <button class="delete"><i class="icon-trash"></i></button>
-            <button class="edit"><i class="icon-pencil"></i></button>
-            <button class="star"><i class="icon-star"></i></button>
-        </div>    
-        </div>
-        <div class="editSubmit">
-            <button class="save">Save</button>
-            <button class="cancel">Cancel</button>
-        </div>    
-        </li>
-        `
+            <li class="item" id="${myItem.id}">
+                <div class="upNdown">
+                <i class="icon-long-arrow-up"></i>
+                <i class="icon-long-arrow-down"></i>
+                </div>
+                <div class="text" lang="en">
+                <h3>${myItem.text}</h3>
+                <h6>${myItem.date}</h6>
+                </div>
+                <div class="itemSettings">
+                <i class="icon-circle-arrow-left arrow"></i>
+                <div class="options">
+                    <button class="delete"><i class="icon-trash"></i></button>
+                    <button class="edit"><i class="icon-pencil"></i></button>
+                    <button class="star"><i class="icon-bookmark-empty"></i></button>
+                </div>    
+                </div>
+                <div class="editSubmit">
+                    <button class="save">Save</button>
+                    <button class="cancel">Cancel</button>
+                </div>    
+            </li>
+            `
+
+            if(localStorage.getItem(localStorage.key(i)) === null) {
+                let mylist = [];
+                mylist.push(myItem);
+                localStorage.setItem(localStorage.key(i), JSON.stringify(mylist));
+            } else {
+                let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                mylist.push(myItem);
+                localStorage.setItem(localStorage.key(i), JSON.stringify(mylist));
+            }
         }
     }
+
+    itemForm.reset();
 }
+
+
 
 // GENRAL ITEM SETTINGS
 const ul = document.querySelectorAll('.ul');
-ul.forEach(item => item.addEventListener('click', itemBtns))
-ul.forEach(item => item.addEventListener('mouseover', itemOver))
+const booked = document.querySelectorAll('.booked');
 
-function itemOver(e) {
-    //BOOKMARK COLOR
-    if(e.target.classList.contains('showBookmark')) {
-        const bookmarksMenu = e.target.querySelector('.bookmarks');
-        bookmarksMenu.classList.toggle('showBookmarks');
-    }
-}
+ul.forEach(item => item.addEventListener('click', itemBtns))
+booked.forEach(item => item.addEventListener('click', itemBtns))
 
 function itemBtns(e) {
     //OPEN ITEM SETTINGS
@@ -173,43 +103,60 @@ function itemBtns(e) {
     //EDIT ITEM
     else if(e.target.classList.contains('icon-pencil') && e.target.parentElement.parentElement.classList.contains('showOptions')) {
         editContent(e);
-        let mylist = JSON.parse(localStorage.getItem('mylist'));
-        for(let i=0;i<mylist.length;i++) {
-
-        }
     }
 
     //DELETE ITEM
     else if(e.target.classList.contains('icon-trash') && e.target.parentElement.parentElement.classList.contains('showOptions')) {
         const item = e.target.parentElement.parentElement.parentElement.parentElement;
         itemsList.removeChild(item);
-        let mylist = JSON.parse(localStorage.getItem('mylist'));
-        for(let i=0;i<mylist.length;i++) {
-            if(mylist[i].id === item.id) {
-                mylist.splice(i, 1);
+        for(let i=0;i<localStorage.length;i++){
+            const localKey = localStorage.key(i).toLowerCase();
+            const listItem = header2.value.toLowerCase();
+            if(localKey === listItem) {              
+                let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                for(let x=0;x<mylist.length;x++) {
+                    if(mylist[x].id === item.id) {
+                        mylist.splice(x, 1);
+                    }
+                }
+                localStorage.setItem(localStorage.key(i), JSON.stringify(mylist));
             }
         }
-        localStorage.setItem('mylist', JSON.stringify(mylist));
     }
 
     //STAR ITEM
-    else if(e.target.classList.contains('icon-star') && e.target.parentElement.parentElement.classList.contains('showOptions')) {
-        const textDiv = e.target.parentElement.parentElement.parentElement.previousElementSibling;
-        const bookmark = textDiv.querySelector('i');
-        bookmark.style.color = 'red';
-        bookmark.classList.toggle('showBookmark');
+    else if(e.target.classList.contains('icon-bookmark-empty') && e.target.parentElement.parentElement.classList.contains('showOptions')) {
+        const markText = e.target.parentElement.parentElement.parentElement.previousElementSibling;
+        const item = e.target.parentElement.parentElement.parentElement.parentElement;
+
+        for(let i=0;i<localStorage.length;i++){
+            const localKey = localStorage.key(i).toLowerCase();
+            const listItem = header2.value.toLowerCase();
+            if(localKey === listItem) {
+                let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                for(let x=mylist.length-1;x>=0;x--) {
+                    if(mylist[x].id === item.id) {
+                        if(mylist[x].bookmarked === false) {
+                            item.classList.add('itemBookmark');
+                            bookedList.appendChild(item);
+                            mylist[x].bookmarked = true;
+                        } else {
+                            item.classList.remove('itemBookmark');
+                            mylist[x].bookmarked = false;
+                            itemsList.appendChild(item);
+                        }
+                    }
+                }
+                localStorage.setItem(localStorage.key(i), JSON.stringify(mylist));
+            }
+        }
     }
 
     //MOVE UP
-    else if(e.target.classList.contains('icon-long-arrow-up')) {
+    else if(e.target.classList.contains('icon-long--up')) {
         const previous = e.target.parentElement.parentElement.previousElementSibling;
         const thisItem = e.target.parentElement.parentElement;
         itemsList.insertBefore(thisItem, previous);
-        // let mylist = JSON.parse(localStorage.getItem('mylist'));
-        // mylist.forEach(item => {
-        //     move(mylist, item, 1);
-        // })
-        // localStorage.setItem('mylist', JSON.stringify(mylist));
     }
 
     //MOVE DOWN
@@ -217,17 +164,6 @@ function itemBtns(e) {
         const next = e.target.parentElement.parentElement.nextElementSibling.nextElementSibling;
         const thisItem = e.target.parentElement.parentElement;
         itemsList.insertBefore(thisItem, next);
-    }
-    
-    //BOOKMARKS COLORS
-    else if(e.target.classList.contains('red')) {
-        e.target.parentElement.parentElement.parentElement.style.color = 'red';
-    }
-    else if(e.target.classList.contains('orange')) {
-        e.target.parentElement.parentElement.parentElement.style.color = 'orange';
-    }
-    else if(e.target.classList.contains('yellow')) {
-        e.target.parentElement.parentElement.parentElement.style.color = 'yellow';
     }
 }
 
@@ -280,15 +216,21 @@ function editContent(e) {
             editSubmit.classList.remove('editSwitch');
             date.innerHTML = `<i>Last Updated</i> ${fullTime}`;
 
-            let mylist = JSON.parse(localStorage.getItem('mylist'));
-            for(let i=0;i<mylist.length;i++) {
-            if(mylist[i].id === item.id) {
-                    mylist[i].text = text.innerHTML;
-                    mylist[i].date = fullTime;
-                    mylist[i].edited = true;
+            for(let i=0;i<localStorage.length;i++){
+                const localKey = localStorage.key(i).toLowerCase();
+                const listItem = header2.value.toLowerCase();
+                if(localKey === listItem) {
+                    let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                    for(let x=0;x<mylist.length;x++) {
+                        if(mylist[x].id === item.id) {
+                            mylist[x].text = text.innerHTML;
+                            mylist[x].date = fullTime;
+                            mylist[x].edited = true;
+                        }
+                    }
+                    localStorage.setItem(localStorage.key(i), JSON.stringify(mylist));
                 }
             }
-            localStorage.setItem('mylist', JSON.stringify(mylist));
         }
         else if(e.target.classList.contains('cancel')) {
             text.innerHTML = oldText;
@@ -299,19 +241,395 @@ function editContent(e) {
     })
 }
 
-// function move(array, element, delta) {
-//     var index = array.indexOf(element);
-//     var newIndex = index + delta;
-//     if (newIndex < 0  || newIndex == array.length) return; //Already at the top or bottom.
-//     var indexes = [index, newIndex].sort(); //Sort the indixes
-//     array.splice(indexes[0], 2, array[indexes[1]], array[indexes[0]]); //Replace from lowest index, two elements, reverting the order
-//   };
+// MANAGE LISTS POPUP
+const addListSign = document.querySelector('.addListSign');
+const addPopup = document.querySelector('.addPopup');
+const closeBtn = addPopup.querySelector('.close');
 
-//   function move(arr, element, offset) {
-//     index = arr.indexOf(element)
-//     newIndex = index + offset
-//     if (newIndex > -1 && newIndex < arr.length) {
-//         removedElement = arr.splice(index, 1)[0];
-//         arr.splice(newIndex, 0, removedElement);
+
+addListSign.addEventListener('click', manageListsOpen);
+closeBtn.addEventListener('click',manageListsClose);
+window.addEventListener('click', popClose);
+
+function popClose(e) {
+    if(e.target == addPopup) {
+        addPopup.classList.remove('popShow');
+        document.body.style.overflowY = 'scroll';
+    }
+}
+
+function manageListsOpen(e) {
+    addPopup.classList.add('popShow');
+    document.body.style.overflowY = 'hidden';
+}
+
+function manageListsClose(e) {
+    addPopup.classList.remove('popShow');
+    document.body.style.overflowY = 'visible';
+}
+
+// ADD LISTS
+const allLists = document.querySelector('.allLists');
+const listOfLists = document.querySelector('.listOfLists');
+
+const addListForm = addPopup.querySelector('.add-lists');
+const addListFormValue = addListForm.querySelector('input[type="text"]');
+
+addListForm.addEventListener('submit', addList);
+listOfLists.addEventListener('click', removeList);
+
+function addList(e) {
+    e.preventDefault();
+
+    let uniqueId = function() {
+        return 'id-' + Math.random().toString(36).substr(2, 16);
+    };
+
+    let newList = {
+        id: uniqueId(),
+        name: addListFormValue.value
+    }
+
+    allLists.innerHTML += `<li id="${newList.id}">${newList.name}</li>`;
+    listOfLists.innerHTML += `<li id="${newList.id}">${newList.name}<button>Delete</button></li>`;
+
+    let listArray = [];
+    localStorage.setItem(`${newList.name}`, JSON.stringify(listArray));
+
+    if(localStorage.getItem('fullList') === null) {
+         let fullList = [];
+         fullList.push(newList);
+         localStorage.setItem('fullList', JSON.stringify(fullList));
+    } else {
+        let fullList = JSON.parse(localStorage.getItem('fullList'));
+        fullList.push(newList);
+        localStorage.setItem('fullList', JSON.stringify(fullList));
+    }
+    addListForm.reset();
+}
+
+// DELETE LIST
+function removeList(e) {
+    const listEl = e.target.parentElement;
+    const allListsChilds = Array.from(document.querySelectorAll('.allLists li'));
+    if(e.target.tagName === 'BUTTON') {
+        for(i=0;i<allListsChilds.length;i++){
+            if(allListsChilds[i].id === listEl.id) {
+                allLists.removeChild(allListsChilds[i]);
+                listOfLists.removeChild(listEl);
+                // REMOVE LIST FROM FULL LIST
+                let fullList = JSON.parse(localStorage.getItem('fullList'));
+                for(let x=0;x<fullList.length;x++){
+                    if(fullList[x].id === listEl.id) {
+                        fullList.splice(x, 1);
+                    }
+                }
+                localStorage.setItem('fullList', JSON.stringify(fullList));
+                
+                // REMOVE LIST LOCAL STORAGE
+                for(let x=0;x<localStorage.length;x++){
+                    const localKey = localStorage.key(x).toLowerCase();
+                    const listItem = listEl.firstChild.textContent.toLowerCase();
+                    if(localKey === listItem) {
+                        localStorage.removeItem(localStorage.key(x));
+                    }
+                }
+            }
+        }
+    }
+}
+
+// FETCH LISTS
+allLists.addEventListener('click', loadList);
+
+function loadList(e) {
+    if(e.target.tagName === 'LI') {
+        const currentList = e.target.textContent.toLowerCase();
+        for(let i=0;i<localStorage.length;i++){
+            const localKey = localStorage.key(i).toLowerCase();
+            if(localKey === currentList) {
+                let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                header2.value = localStorage.key(i);
+                oldHeadText = localStorage.key(i);
+                getList(mylist);
+            }
+        }
+    }
+}
+
+function getList(mylist) {
+                itemsList.innerHTML = '';
+                bookedList.innerHTML = '';
+
+                for(let i=0;i<mylist.length;i++) {
+                    let id = mylist[i].id;
+                    let text = mylist[i].text;
+                    let date = mylist[i].date;
+                    let edited = function() {
+                        if(mylist[i].edited === true) {
+                            return `<i>Last Updated</i> ${date}`
+                        } else {
+                            return `${date}`
+                        }
+                    };
+                    function fetchBookmark() {
+                        if(mylist[i].bookmarked === true) {
+                            bookedList.innerHTML += 
+                            `
+                                <li class="item itemBookmark" id="${id}">
+                                <div class="upNdown">
+                                <i class="icon-long-arrow-up"></i>
+                                <i class="icon-long-arrow-down"></i>
+                                </div>
+                                <div class="text" lang="en">
+                                <h3>${text}</h3>
+                                <h6>${edited()}</h6>
+                                </div>
+                                <div class="itemSettings">
+                                <i class="icon-circle-arrow-left arrow"></i>
+                                <div class="options">
+                                    <button class="delete"><i class="icon-trash"></i></button>
+                                    <button class="edit"><i class="icon-pencil"></i></button>
+                                    <button class="star"><i class="icon-bookmark-empty"></i></button>
+                                </div>    
+                                </div>
+                                <div class="editSubmit">
+                                    <button class="save">Save</button>
+                                    <button class="cancel">Cancel</button>
+                                </div>    
+                                </li>
+                            `
+                        } else {
+                            itemsList.innerHTML +=
+                            `
+                                <li class="item" id="${id}">
+                                <div class="upNdown">
+                                <i class="icon-long-arrow-up"></i>
+                                <i class="icon-long-arrow-down"></i>
+                                </div>
+                                <div class="text" lang="en">
+                                <h3>${text}</h3>
+                                <h6>${edited()}</h6>
+                                </div>
+                                <div class="itemSettings">
+                                <i class="icon-circle-arrow-left arrow"></i>
+                                <div class="options">
+                                    <button class="delete"><i class="icon-trash"></i></button>
+                                    <button class="edit"><i class="icon-pencil"></i></button>
+                                    <button class="star"><i class="icon-bookmark-empty"></i></button>
+                                </div>    
+                                </div>
+                                <div class="editSubmit">
+                                    <button class="save">Save</button>
+                                    <button class="cancel">Cancel</button>
+                                </div>    
+                                </li>
+                            `
+                        }
+                    }
+                    fetchBookmark();
+                }
+}
+
+function fetchList() {
+    let fullList = JSON.parse(localStorage.getItem('fullList'));
+    if(localStorage.length === 0 || fullList.length === 0) {
+        let uniqueId = function() {
+            return 'id-' + Math.random().toString(36).substr(2, 16);
+        };
+
+        let newList = {
+            id: uniqueId(),
+            name: 'My First List'
+        }
+    
+        allLists.innerHTML = `<li id="${newList.id}">${newList.name}</li>`;
+        listOfLists.innerHTML = `<li id="${newList.id}">${newList.name}<button>Delete</button></li>`;
+        header2.value = `${newList.name}`;
+        let listArray = [];
+        localStorage.setItem(`${newList.name}`, JSON.stringify(listArray));
+
+        if(localStorage.getItem('fullList') === null) {
+             let fullList = [];
+             fullList.push(newList);
+             localStorage.setItem('fullList', JSON.stringify(fullList));
+        } else {
+            let fullList = JSON.parse(localStorage.getItem('fullList'));
+            fullList.push(newList);
+            localStorage.setItem('fullList', JSON.stringify(fullList));
+        }
+
+    } else {
+        for(let i=0;i<localStorage.length;i++){
+            if(localStorage.key(i) === 'fullList') {
+                const fullList = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                for(let x=0;x<fullList.length;x++) {
+                    let listID = fullList[x].id;
+                    let listName = fullList[x].name;
+                    allLists.innerHTML += `<li id="${listID}">${listName}</li>`;
+                    listOfLists.innerHTML += `<li id="${listID}">${listName}<button>Delete</button></li>`;
+                    header2.value = `${listName}`;
+                    oldHeadText = header2.value;
+                }
+                const mylist = JSON.parse(localStorage.getItem(header2.value));
+                getList(mylist);
+            }
+            // for(let x=0;x<lists.length;x++){
+            //     let arr = Array.prototype.slice.call( lists );
+            //     let arrHtml = arr[x].innerHTML;
+            //     console.log('test');
+            //     if (localKey.toLowerCase() === arrHtml.toLowerCase()) {
+            //         if(localStorage.getItem(localKey) === null)  {
+            //         } else {
+            //             const mylist = JSON.parse(localStorage.getItem(localKey));
+            //             getList(mylist);
+            //         }
+            //     }
+            // }
+        }
+    }
+
+
+}
+
+
+// LIST HEADER RENAME
+const listHeader = document.querySelector('.listHeader');
+const header2 = listHeader.querySelector('input');
+const headerp = listHeader.querySelector('p');   
+
+const headEdit = document.querySelector('.headEdit');
+let oldHeadText = header2.value;
+
+listHeader.addEventListener('click', headerFunctions);
+header2.addEventListener('keydown', textEditing);
+header2.addEventListener('change', textEditing);
+
+function headerFunctions(e) {
+    if (e.target.classList.contains('icon-pencil')) {
+        editHead();
+        headerp.innerHTML = `${header2.value.length}/30`;
+    }
+    else if(e.target.classList.contains('saveHead')) {
+        let newValue = header2.value;
+        for(let i=0;i<localStorage.length;i++){
+            const localKey = localStorage.key(i).toLowerCase();
+            const listItem = oldHeadText.toLowerCase();
+            let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+            if(localKey === listItem) {  
+                headText = newValue;
+                localStorage.setItem(`${newValue}`, JSON.stringify(mylist));
+                localStorage.removeItem(`${oldHeadText}`);
+                const navLi = Array.from(document.querySelectorAll('.allLists li'));
+                const manLi = Array.from(document.querySelectorAll('.listOfLists li'));
+                for(x=0;x<navLi.length;x++){
+                    if(listItem === navLi[x].innerHTML.toLowerCase()) {
+                        navLi[x].innerHTML = `${newValue}`;
+                    }
+                }
+                for(a=0;a<manLi.length;a++){
+                    if(listItem === manLi[a].innerHTML.toLowerCase()) {
+                        console.log('check');
+                        manLi[a].innerHTML = `${newValue}`;
+                    }
+                }
+                let fullList = JSON.parse(localStorage.getItem('fullList')); 
+                for(b=0;b<fullList.length;b++){
+                    if(listItem === fullList[b].name.toLowerCase()) {
+                        fullList[b].name = `${newValue}`;
+                    }
+                    localStorage.setItem('fullList', JSON.stringify(fullList));
+                }
+            }
+        }
+        oldHeadText = newValue;
+        endEditing();
+    }
+    else if(e.target.classList.contains('cancelHead')) {
+        header2.value = oldHeadText;
+        endEditing();
+    }
+}
+
+function editHead() {
+    header2.disabled = false;
+    header2.focus();
+    headEdit.classList.add('rev');
+}
+
+function endEditing() {
+    header2.disabled = true;
+    headEdit.classList.remove('rev');
+}
+
+function textEditing(e) {
+    let headLength = header2.value.length;
+    headerp.innerHTML = `${headLength}/30`;
+    if(headLength === 30) {
+        if(e.keyCode !== 8) {
+            e.preventDefault();
+            return false;
+        }
+        return true;
+    }
+}
+
+function submitNewHead(e) {
+
+}
+
+
+
+
+// const listHeadText = document.querySelector('.listHeader input');
+// const listHeadIcon = document.querySelector('.listHeader i');
+
+
+// listHeadText.addEventListener('keydown', submitHead);
+
+// // let oldHeadText = listHeadText.textContent;
+
+// function submitHead(e) {
+//     let headText = '';
+
+//     for(let i=0;i<localStorage.length;i++){
+//         const localKey = localStorage.key(i).toLowerCase();
+//         const listItem = oldHeadText.toLowerCase();
+//         if(e.keyCode === 13) {
+//         } else {
+//             let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+//             if(localKey === listItem) {  
+//                 if(headText.length > 50) {
+//                     alert(`${headText} is too long, please don't use more than 50 characters`);
+//                     listHeadText.textContent = oldHeadText;
+//                 } else {
+//                     headText = listHeadText.textContent;
+//                     listHeadText.contentEditable = 'false';
+//                     localStorage.setItem(`${headText}`, JSON.stringify(mylist));
+//                     localStorage.removeItem(`${oldHeadText}`);
+
+//                     const navLi = Array.from(document.querySelectorAll('.allLists li'));
+//                     const manLi = Array.from(document.querySelectorAll('.listOfLists li'));
+//                     for(x=0;x<navLi.length;x++){
+//                         if(listItem === navLi[x].innerHTML.toLowerCase()) {
+//                             navLi[x].innerHTML = `${headText}`;
+//                         }
+//                     }
+//                     for(a=0;a<manLi.length;a++){
+//                         if(listItem === manLi[a].innerHTML.toLowerCase()) {
+//                             manLi[a].innerHTML = `${headText}`;
+//                         }
+//                     }
+//                     let fullList = JSON.parse(localStorage.getItem('fullList')); 
+//                     for(b=0;b<fullList.length;b++){
+//                         if(listItem === fullList[b].name.toLowerCase()) {
+//                             fullList[b].name = `${headText}`;
+//                         }
+//                         localStorage.setItem('fullList', JSON.stringify(fullList));
+//                     }
+//                 }
+//             }
+//         }
 //     }
-//   }
+// }
+
