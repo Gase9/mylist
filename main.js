@@ -2,6 +2,9 @@
 const itemForm = document.querySelector('.myList form');
 const textValue = itemForm.querySelector('input[type="text"]');
 
+const alertMsg = document.querySelector('.alertMsg');
+const alerth5 = alertMsg.querySelector('h5');
+
 // Select the items list
 const itemsList = document.querySelector('.list .ul');
 const bookedList = document.querySelector('.list .booked');
@@ -43,16 +46,14 @@ function addItems(e) {
                 bookmarked: false
             }
 
+            // <i class="icon-long-arrow-up"></i>
+            // <i class="icon-long-arrow-down"></i>
             // Creating a new list item
             itemsList.innerHTML += 
             `
             <li class="item" id="${myItem.id}">
-                <div class="upNdown">
-                <i class="icon-long-arrow-up"></i>
-                <i class="icon-long-arrow-down"></i>
-                </div>
                 <div class="text" lang="en">
-                <h3>${myItem.text}</h3>
+                <input type="text" class="itemTitle" value="${myItem.text}" disabled="true">
                 <h6>${myItem.date}</h6>
                 </div>
                 <div class="itemSettings">
@@ -183,13 +184,13 @@ function editContent(e) {
     const item = e.target.parentElement.parentElement.parentElement.parentElement;
 
     const editText = e.target.parentElement.parentElement.parentElement.previousElementSibling;
-    const text = editText.querySelector('h3');
+    const text = editText.querySelector('input');
     const date = editText.querySelector('h6');
 
-    const oldText = text.innerHTML;
+    const oldText = text.value;
 
     if(optionsDiv.classList.contains('showOptions')) {
-        text.contentEditable = 'true';
+        text.disabled = false;
         itemSettings.classList.add('settingsSwitch');
         editSubmit.classList.add('editSwitch');
         text.focus();
@@ -210,8 +211,8 @@ function editContent(e) {
         };
         let fullTime = `${d}/${mon}/${y} ${h}:${min}`;
         if(e.target.classList.contains('save')) {
-            text.innerHTML = text.innerHTML;
-            text.contentEditable = 'false'
+            text.value = text.value;
+            text.disabled = true;
             itemSettings.classList.remove('settingsSwitch');
             editSubmit.classList.remove('editSwitch');
             date.innerHTML = `<i>Last Updated</i> ${fullTime}`;
@@ -221,9 +222,10 @@ function editContent(e) {
                 const listItem = header2.value.toLowerCase();
                 if(localKey === listItem) {
                     let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                    console.log(mylist);
                     for(let x=0;x<mylist.length;x++) {
                         if(mylist[x].id === item.id) {
-                            mylist[x].text = text.innerHTML;
+                            mylist[x].text = text.value;
                             mylist[x].date = fullTime;
                             mylist[x].edited = true;
                         }
@@ -233,8 +235,8 @@ function editContent(e) {
             }
         }
         else if(e.target.classList.contains('cancel')) {
-            text.innerHTML = oldText;
-            text.contentEditable = 'false'
+            text.value = oldText;
+            text.disabled = true;
             itemSettings.classList.remove('settingsSwitch');
             editSubmit.classList.remove('editSwitch');
         }
@@ -271,6 +273,7 @@ function manageListsClose(e) {
 // ADD LISTS
 const allLists = document.querySelector('.allLists');
 const listOfLists = document.querySelector('.listOfLists');
+const select = document.querySelector('#select');
 
 const addListForm = addPopup.querySelector('.add-lists');
 const addListFormValue = addListForm.querySelector('input[type="text"]');
@@ -292,6 +295,7 @@ function addList(e) {
 
     allLists.innerHTML += `<li id="${newList.id}">${newList.name}</li>`;
     listOfLists.innerHTML += `<li id="${newList.id}">${newList.name}<button>Delete</button></li>`;
+    select.innerHTML += `<option id="${newList.id}" value="${newList.name}">${newList.name}</option>`;
 
     let listArray = [];
     localStorage.setItem(`${newList.name}`, JSON.stringify(listArray));
@@ -341,13 +345,15 @@ function removeList(e) {
 
 // FETCH LISTS
 allLists.addEventListener('click', loadList);
+select.addEventListener('change', loadList);
 
 function loadList(e) {
-    if(e.target.tagName === 'LI') {
+    if(e.target.tagName === 'LI' || e.target.tagName === 'SELECT') {
+        const optionValue = select.options[select.selectedIndex].value.toLowerCase();
         const currentList = e.target.textContent.toLowerCase();
         for(let i=0;i<localStorage.length;i++){
             const localKey = localStorage.key(i).toLowerCase();
-            if(localKey === currentList) {
+            if(localKey === currentList || localKey === optionValue) {
                 let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
                 header2.value = localStorage.key(i);
                 oldHeadText = localStorage.key(i);
@@ -377,12 +383,8 @@ function getList(mylist) {
                             bookedList.innerHTML += 
                             `
                                 <li class="item itemBookmark" id="${id}">
-                                <div class="upNdown">
-                                <i class="icon-long-arrow-up"></i>
-                                <i class="icon-long-arrow-down"></i>
-                                </div>
                                 <div class="text" lang="en">
-                                <h3>${text}</h3>
+                                <input type="text" class="itemTitle" value="${text}" disabled="true">
                                 <h6>${edited()}</h6>
                                 </div>
                                 <div class="itemSettings">
@@ -403,12 +405,8 @@ function getList(mylist) {
                             itemsList.innerHTML +=
                             `
                                 <li class="item" id="${id}">
-                                <div class="upNdown">
-                                <i class="icon-long-arrow-up"></i>
-                                <i class="icon-long-arrow-down"></i>
-                                </div>
                                 <div class="text" lang="en">
-                                <h3>${text}</h3>
+                                <input type="text" class="itemTitle" value="${text}" disabled="true">
                                 <h6>${edited()}</h6>
                                 </div>
                                 <div class="itemSettings">
@@ -445,7 +443,10 @@ function fetchList() {
     
         allLists.innerHTML = `<li id="${newList.id}">${newList.name}</li>`;
         listOfLists.innerHTML = `<li id="${newList.id}">${newList.name}<button>Delete</button></li>`;
+        select.innerHTML += `<option id="${newList.id}" value="${newList.name}">${newList.name}</option>`;
         header2.value = `${newList.name}`;
+        select.value = `${newList.name}`;
+
         let listArray = [];
         localStorage.setItem(`${newList.name}`, JSON.stringify(listArray));
 
@@ -468,24 +469,14 @@ function fetchList() {
                     let listName = fullList[x].name;
                     allLists.innerHTML += `<li id="${listID}">${listName}</li>`;
                     listOfLists.innerHTML += `<li id="${listID}">${listName}<button>Delete</button></li>`;
+                    select.innerHTML += `<option id="${listID}" value="${listName}">${listName}</option>`;
                     header2.value = `${listName}`;
                     oldHeadText = header2.value;
+                    select.value = `${listName}`;
                 }
                 const mylist = JSON.parse(localStorage.getItem(header2.value));
                 getList(mylist);
             }
-            // for(let x=0;x<lists.length;x++){
-            //     let arr = Array.prototype.slice.call( lists );
-            //     let arrHtml = arr[x].innerHTML;
-            //     console.log('test');
-            //     if (localKey.toLowerCase() === arrHtml.toLowerCase()) {
-            //         if(localStorage.getItem(localKey) === null)  {
-            //         } else {
-            //             const mylist = JSON.parse(localStorage.getItem(localKey));
-            //             getList(mylist);
-            //         }
-            //     }
-            // }
         }
     }
 
@@ -560,6 +551,7 @@ function editHead() {
 function endEditing() {
     header2.disabled = true;
     headEdit.classList.remove('rev');
+    alertMsg.classList.remove('alertPop');
 }
 
 function textEditing(e) {
@@ -568,6 +560,8 @@ function textEditing(e) {
     if(headLength === 30) {
         if(e.keyCode !== 8) {
             e.preventDefault();
+            alertMsg.classList.add('alertPop');
+            alerth5.innerHTML = `Your list title can't contain more than 30 characters`;
             return false;
         }
         return true;
@@ -632,4 +626,3 @@ function submitNewHead(e) {
 //         }
 //     }
 // }
-
