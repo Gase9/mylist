@@ -303,10 +303,12 @@ select {
 
 .listHeader input:disabled {
     color: rgba(0,0,0,1);
+    opacity: 1;
 }
 
 .listHeader input:enabled {
     color: rgba(0,0,0,0.6);
+    opacity: 0.6;
 }
 
 .headEdit {
@@ -516,10 +518,12 @@ select {
 }
 
 .text input:disabled {
-    color: var(--black);
+    color: rgba(0,0,0,1);
+    opacity: 1;
 }
 .text input:enabled {
     color: rgba(0,0,0,0.6);
+    opacity: 0.6;
     outline: 0.1px dashed rgba(0,0,0,0.3);
 }
 
@@ -1018,22 +1022,6 @@ footer .credits a {
 
     .popHead {
         font-size: 0.9em;
-    }
-
-    .listHeader input:disabled {
-        color: rgba(0,0,0,1);
-    }
-    
-    .listHeader input:enabled {
-        color: rgba(0,0,0,0.6);
-    }
-
-    .text input:disabled {
-        color: var(--black);
-    }
-    .text input:enabled {
-        color: rgba(0,0,0,0.6);
-        outline: 0.1px dashed rgba(0,0,0,0.3);
     }
 
     /* /////////////////// INDEX FILE ///////////////// */
