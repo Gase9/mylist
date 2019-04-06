@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>My Lists</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/node_modules/normalize.css/normalize.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <!-- <link rel="stylesheet" type="text/css" href="/node_modules/normalize.css/normalize.css"> -->
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Srisakdi|Titillium+Web" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -13,12 +13,13 @@
 </head>
 <body onload="fetchList()">
 
-    <div class="wrapper">
+  <div class="wrapper">
         <div class="navBar"> <!-- Called it navBar because at the beginning it was meant to be navigation bar -->
-    <h1>My Lists</h1> 
-  </div>
+          <i class="icon-th-list"></i>
+          <h1> my<span>List</span>s</h1> 
+        </div>
   <div class="listMenu">
-    <div class="addListSign">+</div>
+    <div class="addListSign"><i class="icon-plus"></i></div>
     <div class="addPopup">
       <div class="box">
         <div class="popHead">
@@ -26,8 +27,8 @@
           <h3>MANAGE LISTS</h3>
         </div>
         <form class="add-lists">
-          <input type="text" name="listName" id="listName" placeholder="NEW LIST">
-          <input type="submit" value="submit">
+          <input type="text" name="listName" id="listName" placeholder="Add List">
+          <input type="submit" value="Submit">
         </form>
           <ul class="listOfLists">
           </ul>
@@ -35,17 +36,21 @@
     </div>
     <ul class="allLists">
     </ul>
+    <select name="selectList" id="select">
+    </select>
   </div>
   <div class="myList">
+    <div class="alertMsg">
+      <h5></h5>
+    </div>
     <form class="add-items">
-      <input type="text" name="addItems" id="addItems" placeholder="Add Items">
-      <input type="submit" value="submit">
+      <input type="text" name="addItems" id="addItems" placeholder="Add Item">
+      <input type="submit" value="Submit">
     </form>
     <div class="list">
       <div class="listHeader">
           <i class="icon-pencil"></i>
           <input type="text" value="My First List" disabled="true">
-          <!-- <h2></h2> -->
           <div class="headEdit">
               <p>0/30</p>
               <button class="saveHead">Save</button>
@@ -86,7 +91,7 @@
 
   <footer class="foot">
       <div class="nameSocial">
-          <h3>created by galsegal</h3>
+          <h3>created by galse</h3>
           <li><a href=""><i class="icon-github"></i></a></li>
           <li><a href=""><i class="icon-facebook-sign"></i></a></li>
           <li><a href=""><i class="icon-linkedin-sign"></i></a></li>
