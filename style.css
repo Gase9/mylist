@@ -654,7 +654,6 @@ select {
     border-radius: 10px;
     transform: translateY(-4em);
     transition: all 0.5s ease;
-    width: 100%;
 }
 
 .alertMsg h5 {
@@ -1019,6 +1018,22 @@ footer .credits a {
 
     .popHead {
         font-size: 0.9em;
+    }
+
+    .listHeader input:disabled {
+        color: rgba(0,0,0,1);
+    }
+    
+    .listHeader input:enabled {
+        color: rgba(0,0,0,0.6);
+    }
+
+    .text input:disabled {
+        color: var(--black);
+    }
+    .text input:enabled {
+        color: rgba(0,0,0,0.6);
+        outline: 0.1px dashed rgba(0,0,0,0.3);
     }
 
     /* /////////////////// INDEX FILE ///////////////// */
