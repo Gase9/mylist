@@ -2,9 +2,6 @@
 const itemForm = document.querySelector('.myList form');
 const textValue = itemForm.querySelector('input[type="text"]');
 
-const alertMsg = document.querySelector('.alertMsg');
-const alerth5 = alertMsg.querySelector('h5');
-
 // Select the items list
 const itemsList = document.querySelector('.list .ul');
 const bookedList = document.querySelector('.list .booked');
@@ -222,7 +219,6 @@ function editContent(e) {
                 const listItem = header2.value.toLowerCase();
                 if(localKey === listItem) {
                     let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                    console.log(mylist);
                     for(let x=0;x<mylist.length;x++) {
                         if(mylist[x].id === item.id) {
                             mylist[x].text = text.value;
@@ -281,6 +277,10 @@ const addListFormValue = addListForm.querySelector('input[type="text"]');
 addListForm.addEventListener('submit', addList);
 listOfLists.addEventListener('click', removeList);
 
+
+document.getElementById('listName').addEventListener('keydown', submitList);
+document.getElementById('listName').addEventListener('change', submitList);
+
 function addList(e) {
     e.preventDefault();
 
@@ -292,24 +292,35 @@ function addList(e) {
         id: uniqueId(),
         name: addListFormValue.value
     }
-
+    console.log(addListFormValue.value.length);
     allLists.innerHTML += `<li id="${newList.id}">${newList.name}</li>`;
     listOfLists.innerHTML += `<li id="${newList.id}">${newList.name}<button>Delete</button></li>`;
     select.innerHTML += `<option id="${newList.id}" value="${newList.name}">${newList.name}</option>`;
-
     let listArray = [];
     localStorage.setItem(`${newList.name}`, JSON.stringify(listArray));
-
     if(localStorage.getItem('fullList') === null) {
-         let fullList = [];
-         fullList.push(newList);
-         localStorage.setItem('fullList', JSON.stringify(fullList));
+        let fullList = [];
+        fullList.push(newList);
+        localStorage.setItem('fullList', JSON.stringify(fullList));
     } else {
         let fullList = JSON.parse(localStorage.getItem('fullList'));
         fullList.push(newList);
         localStorage.setItem('fullList', JSON.stringify(fullList));
     }
     addListForm.reset();
+    alertMessage.removeAlert();
+}
+
+function submitList(e) {
+    let nameLength = addListFormValue.value.length;
+    if(nameLength === 30) {
+        if(e.keyCode !== 8) {
+            e.preventDefault();
+            alertMessage.addAlert(`Your list title can't contain more than 30 characters`);
+            return false;
+        }
+        return true;
+    }
 }
 
 // DELETE LIST
@@ -520,7 +531,6 @@ function headerFunctions(e) {
                 }
                 for(a=0;a<manLi.length;a++){
                     if(listItem === manLi[a].innerHTML.toLowerCase()) {
-                        console.log('check');
                         manLi[a].innerHTML = `${newValue}`;
                     }
                 }
@@ -551,78 +561,32 @@ function editHead() {
 function endEditing() {
     header2.disabled = true;
     headEdit.classList.remove('rev');
-    alertMsg.classList.remove('alertPop');
+    alertMessage.removeAlert();
 }
 
 function textEditing(e) {
     let headLength = header2.value.length;
     headerp.innerHTML = `${headLength}/30`;
-    if(headLength === 30) {
+    if(headLength >= 30) {
         if(e.keyCode !== 8) {
             e.preventDefault();
-            alertMsg.classList.add('alertPop');
-            alerth5.innerHTML = `Your list title can't contain more than 30 characters`;
+            alertMessage.addAlert(`Your list title can't contain more than 30 characters`);
             return false;
         }
         return true;
     }
 }
 
-function submitNewHead(e) {
+const alertMsg = document.querySelector('.alertMsg');
+const alerth5 = alertMsg.querySelector('h5');
 
+class alertMessage {
+    static addAlert(message) {
+        alertMsg.classList.add('alertPop');
+        alerth5.innerHTML = message;
+    }
+
+    static removeAlert() {
+        alertMsg.classList.remove('alertPop');
+    }
 }
-
-
-
-
-// const listHeadText = document.querySelector('.listHeader input');
-// const listHeadIcon = document.querySelector('.listHeader i');
-
-
-// listHeadText.addEventListener('keydown', submitHead);
-
-// // let oldHeadText = listHeadText.textContent;
-
-// function submitHead(e) {
-//     let headText = '';
-
-//     for(let i=0;i<localStorage.length;i++){
-//         const localKey = localStorage.key(i).toLowerCase();
-//         const listItem = oldHeadText.toLowerCase();
-//         if(e.keyCode === 13) {
-//         } else {
-//             let mylist = JSON.parse(localStorage.getItem(localStorage.key(i)));
-//             if(localKey === listItem) {  
-//                 if(headText.length > 50) {
-//                     alert(`${headText} is too long, please don't use more than 50 characters`);
-//                     listHeadText.textContent = oldHeadText;
-//                 } else {
-//                     headText = listHeadText.textContent;
-//                     listHeadText.contentEditable = 'false';
-//                     localStorage.setItem(`${headText}`, JSON.stringify(mylist));
-//                     localStorage.removeItem(`${oldHeadText}`);
-
-//                     const navLi = Array.from(document.querySelectorAll('.allLists li'));
-//                     const manLi = Array.from(document.querySelectorAll('.listOfLists li'));
-//                     for(x=0;x<navLi.length;x++){
-//                         if(listItem === navLi[x].innerHTML.toLowerCase()) {
-//                             navLi[x].innerHTML = `${headText}`;
-//                         }
-//                     }
-//                     for(a=0;a<manLi.length;a++){
-//                         if(listItem === manLi[a].innerHTML.toLowerCase()) {
-//                             manLi[a].innerHTML = `${headText}`;
-//                         }
-//                     }
-//                     let fullList = JSON.parse(localStorage.getItem('fullList')); 
-//                     for(b=0;b<fullList.length;b++){
-//                         if(listItem === fullList[b].name.toLowerCase()) {
-//                             fullList[b].name = `${headText}`;
-//                         }
-//                         localStorage.setItem('fullList', JSON.stringify(fullList));
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
